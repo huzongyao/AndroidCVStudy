@@ -1,4 +1,4 @@
-package com.hzy.opencv.study;
+package com.hzy.opencv.study.activity;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
