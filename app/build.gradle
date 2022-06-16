@@ -1,0 +1,70 @@
+plugins {
+    id 'com.android.application'
+}
+
+android {
+    compileSdk 32
+    signingConfigs {
+        demokey {
+            storeFile file('demokey.jks')
+            storePassword "demokey"
+            keyAlias 'demokey'
+            keyPassword 'demokey'
+        }
+    }
+    defaultConfig {
+        applicationId "com.hzy.opencv.study"
+        minSdk 21
+        targetSdk 32
+        versionCode 1
+        versionName "1.0.0"
+        externalNativeBuild {
+            ndk {
+                abiFilters 'armeabi-v7a', 'arm64-v8a'
+            }
+        }
+    }
+    externalNativeBuild {
+        ndkBuild {
+            path 'src/main/cpp/Android.mk'
+        }
+    }
+    viewBinding {
+        enabled = true
+    }
+    buildTypes {
+        debug {
+            minifyEnabled false
+            signingConfig signingConfigs.demokey
+        }
+        release {
+            minifyEnabled true
+            signingConfig signingConfigs.demokey
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    applicationVariants.all { variant ->
+        variant.outputs.all {
+            def fileName = project.name + '-' + variant.name + '-V' +
+                    defaultConfig.versionName + ".apk"
+            outputFileName = fileName
+        }
+    }
+    lintOptions {
+        abortOnError false
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+
+dependencies {
+    implementation 'androidx.appcompat:appcompat:1.4.2'
+    implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:3.0.6'
+    implementation 'com.google.android.material:material:1.6.1'
+    implementation 'androidx.appcompat:appcompat:1.4.2'
+    implementation "androidx.camera:camera-camera2:1.0.2"
+    implementation 'com.blankj:utilcodex:1.31.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+}
